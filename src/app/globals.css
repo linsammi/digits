@@ -12,3 +12,42 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
+/* Digits landing page theme */
+:root {
+  --nat-navbar-bg: #182d4d;
+  --nat-navbar-bg-rgb: 24, 45, 77;
+  --nat-navbar-text-color: white;
+  --nat-navbar-highlight-text: #b8e0f2;
+}
+
+body {
+  --bs-dark: var(--nat-navbar-bg);
+  --bs-dark-rgb: var(--nat-navbar-bg-rgb);
+  background: url("/images/digits-bg.jpg") center center / cover fixed;
+}
+
+body .navbar {
+  --bs-navbar-active-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-brand-color: white;
+  --bs-navbar-brand-hover-color: var(--nat-navbar-highlight-text);
+  --bs-navbar-color: white;
+  --bs-navbar-hover-color: var(--nat-navbar-highlight-text);
+}
+
+footer, footer a {
+  color: white;
+}
+
+.bg-dark a.dropdown-item {
+  color: var(--nat-navbar-bg);
+}
+
+main {
+  color: #182d4d;
+}
+
+main h5 {
+  line-height: 1.6;
+}
