@@ -12,3 +12,26 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+/* Digits page background */
+body {
+  background:
+    radial-gradient(ellipse at 15% 25%, #e6f9ff 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 75%, #44b4ee 0%, transparent 55%),
+    linear-gradient(135deg, #d7f3ff 0%, #8dd8fc 50%, #3aa9e8 100%);
+  background-attachment: fixed;
+}
+
+/* Digits navbar */
+.navbar.bg-primary {
+  background-color: #080080 !important;
+}
+
+.navbar.bg-primary .navbar-brand,
+.navbar.bg-primary .nav-link {
+  color: white !important;
+}
+
+.navbar.bg-primary .nav-link:hover {
+  color: #d5efff !important;
+}
