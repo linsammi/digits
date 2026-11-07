@@ -1,4 +1,5 @@
 'use server';
+import type { Contact as PrismaContact } from '@prisma/client';
 
 import { Condition } from '@prisma/client';
 import { Stuff } from '@prisma/client';
@@ -92,4 +93,41 @@ export async function changePassword(credentials: { email: string; password: str
       password,
     },
   });
+}
+
+
+export async function addContact(contact: {
+  firstName: string;
+  lastName: string;
+  address: string;
+  image: string;
+  description: string;
+  owner: string;
+}) {
+  await prisma.contact.create({
+    data: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      address: contact.address,
+      image: contact.image,
+      description: contact.description,
+      owner: contact.owner,
+    },
+  });
+  redirect('/list');
+}
+
+export async function editContact(contact: PrismaContact) {
+  await prisma.contact.update({
+    where: { id: contact.id },
+    data: {
+      firstName: contact.firstName,
+      lastName: contact.lastName,
+      address: contact.address,
+      image: contact.image,
+      description: contact.description,
+      owner: contact.owner,
+    },
+  });
+  redirect('/list');
 }
