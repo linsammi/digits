@@ -134,15 +134,12 @@ export async function editContact(contact: PrismaContact) {
 }
 
 
-export async function addNote(data: {
-  note: string;
-  contactId: number;
-}) {
+export async function addNote(data: { note: string; contactId: number }) {
   const session = await auth();
   const email = session?.user?.email;
 
   if (!email) {
-    throw new Error('You must be signed in to add a note.');
+    throw new Error('You must be logged in to add a note.');
   }
 
   const contact = await prisma.contact.findFirst({
@@ -156,9 +153,15 @@ export async function addNote(data: {
     throw new Error('Contact not found or access denied.');
   }
 
+  const note = data.note.trim();
+
+  if (!note) {
+    throw new Error('Note cannot be empty.');
+  }
+
   await prisma.note.create({
     data: {
-      note: data.note.trim(),
+      note,
       contactId: data.contactId,
       owner: email,
     },

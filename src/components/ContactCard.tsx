@@ -7,7 +7,7 @@ import type { Note } from '@prisma/client';
 import NoteItem from '@/components/NoteItem';
 import AddNoteForm from '@/components/AddNoteForm';
 
-const ContactCard = ({ contact, notes }: { contact: Contact; notes: Note[] }) => (
+const ContactCard = ({ contact, notes = [] }: { contact: Contact; notes?: Note[] }) => (
   <Card className="h-100">
     <Card.Body>
       <div className="d-flex align-items-center mb-3">
@@ -36,9 +36,7 @@ const ContactCard = ({ contact, notes }: { contact: Contact; notes: Note[] }) =>
     </ListGroup>
     <Card.Footer>
       <AddNoteForm contactId={contact.id} />
-      <div className="mt-3">
-        <Link href={`/edit/${contact.id}`}>Edit</Link>
-      </div>
+      <Link href={`/edit/${contact.id}`}>Edit</Link>
     </Card.Footer>
   </Card>
 );

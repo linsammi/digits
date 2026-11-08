@@ -1,21 +1,17 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
-import { Button, Form } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { addNote } from '@/lib/dbActions';
+import { Button, Form } from 'react-bootstrap';
 import { AddNoteSchema } from '@/lib/validationSchemas';
+import { addNote } from '@/lib/dbActions';
 
-interface NoteFormData {
+type NoteFormData = {
   note: string;
   contactId: number;
-}
+};
 
 const AddNoteForm = ({ contactId }: { contactId: number }) => {
-  const { data: session } = useSession();
-  const currentUser = session?.user?.email || '';
-
   const {
     register,
     handleSubmit,
@@ -29,31 +25,26 @@ const AddNoteForm = ({ contactId }: { contactId: number }) => {
   });
 
   const onSubmit = async (data: NoteFormData) => {
-    await addNote({
-      note: data.note,
-      contactId,
-    });
+    await addNote(data);
   };
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)} className="mt-3">
-      <Form.Group>
+      <Form.Control type="hidden" {...register('contactId', { valueAsNumber: true })} />
+      <Form.Group className="mb-2">
         <Form.Label>Add Note</Form.Label>
         <Form.Control
           as="textarea"
           rows={2}
-          {...register('note')}
-          isInvalid={!!errors.note}
           placeholder="Write a note..."
+          isInvalid={!!errors.note}
+          {...register('note')}
         />
         <Form.Control.Feedback type="invalid">
           {errors.note?.message}
         </Form.Control.Feedback>
       </Form.Group>
-
-      <input type="hidden" {...register('contactId', { valueAsNumber: true })} value={contactId} />
-
-      <Button type="submit" variant="primary" className="mt-2" disabled={isSubmitting || !currentUser}>
+      <Button type="submit" disabled={isSubmitting} size="sm">
         {isSubmitting ? 'Saving...' : 'Add Note'}
       </Button>
     </Form>

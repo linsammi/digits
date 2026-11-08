@@ -1,16 +1,12 @@
-import type { Note } from '@prisma/client';
+import { Note } from '@prisma/client';
 import { ListGroup } from 'react-bootstrap';
 
-interface NoteItemProps {
-  note: Note;
-}
-
-const NoteItem = ({ note }: NoteItemProps) => (
+const NoteItem = ({ note }: { note: Note }) => (
   <ListGroup.Item>
-    <small className="text-muted">
-      {new Date(note.createdAt).toLocaleDateString()}
-    </small>
-    <p className="mb-0">{note.note}</p>
+    <p className="fw-lighter">
+      {new Date(note.createdAt).toLocaleDateString('en-US')}
+    </p>
+    <p>{note.note}</p>
   </ListGroup.Item>
 );
 

@@ -48,6 +48,16 @@ model Contact {
   description String
   notes       Note[]
   owner       String
+  notes       Note[]
+}
+
+model Note {
+  id        Int      @id @default(autoincrement())
+  contactId Int
+  note      String
+  owner     String
+  createdAt DateTime @default(now())
+  Contact   Contact  @relation(fields: [contactId], references: [id])
 }
 
 model Note {
