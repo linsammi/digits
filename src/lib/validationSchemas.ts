@@ -44,3 +44,9 @@ export const EditContactSchema = Yup.object({
   description: Yup.string().required(),
   owner: Yup.string().required(),
 });
+
+
+export const AddNoteSchema = Yup.object({
+  note: Yup.string().trim().required(),
+  contactId: Yup.number().integer().positive().required(),
+});

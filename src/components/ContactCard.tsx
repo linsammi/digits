@@ -1,10 +1,13 @@
 'use client';
 
-import { Card, Image } from 'react-bootstrap';
+import { Card, Image, ListGroup } from 'react-bootstrap';
 import Link from 'next/link';
 import type { Contact } from '@/lib/validationSchemas';
+import type { Note } from '@prisma/client';
+import NoteItem from '@/components/NoteItem';
+import AddNoteForm from '@/components/AddNoteForm';
 
-const ContactCard = ({ contact }: { contact: Contact }) => (
+const ContactCard = ({ contact, notes = [] }: { contact: Contact; notes?: Note[] }) => (
   <Card className="h-100">
     <Card.Body>
       <div className="d-flex align-items-center mb-3">
@@ -28,7 +31,11 @@ const ContactCard = ({ contact }: { contact: Contact }) => (
       </div>
       <Card.Text>{contact.description}</Card.Text>
     </Card.Body>
+    <ListGroup variant="flush">
+      {notes.map((note) => <NoteItem key={note.id} note={note} />)}
+    </ListGroup>
     <Card.Footer>
+      <AddNoteForm contactId={contact.id} />
       <Link href={`/edit/${contact.id}`}>Edit</Link>
     </Card.Footer>
   </Card>
