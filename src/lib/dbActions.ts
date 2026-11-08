@@ -6,6 +6,7 @@ import { Stuff } from '@prisma/client';
 import { hash } from 'bcrypt';
 import { redirect } from 'next/navigation';
 import { prisma } from './prisma';
+import { auth } from './auth';
 
 /**
  * Adds a new stuff to the database.
@@ -129,5 +130,39 @@ export async function editContact(contact: PrismaContact) {
       owner: contact.owner,
     },
   });
+  redirect('/list');
+}
+
+
+export async function addNote(data: {
+  note: string;
+  contactId: number;
+}) {
+  const session = await auth();
+  const email = session?.user?.email;
+
+  if (!email) {
+    throw new Error('You must be signed in to add a note.');
+  }
+
+  const contact = await prisma.contact.findFirst({
+    where: {
+      id: data.contactId,
+      owner: email,
+    },
+  });
+
+  if (!contact) {
+    throw new Error('Contact not found or access denied.');
+  }
+
+  await prisma.note.create({
+    data: {
+      note: data.note.trim(),
+      contactId: data.contactId,
+      owner: email,
+    },
+  });
+
   redirect('/list');
 }
